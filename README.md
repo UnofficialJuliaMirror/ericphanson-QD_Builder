@@ -1,6 +1,6 @@
 # QD_Builder
 
-[![Build Status](https://travis-ci.com/ericphanson/QD_Builder.jl.svg?branch=master)](https://travis-ci.com/ericphanson/QD_Builder.jl)
+[![Build Status](https://travis-ci.com/ericphanson/QD_Builder.svg?branch=master)](https://travis-ci.com/ericphanson/QD_Builder)
 
 This repository builds binary artifacts for [QD](http://sdpa.sourceforge.net/).
 Binary artifacts are automatically uploaded to
