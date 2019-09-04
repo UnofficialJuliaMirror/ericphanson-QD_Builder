@@ -3,7 +3,7 @@
 using BinaryBuilder
 
 name = "SDPA-QD"
-version = v"7.1.2"
+version = v"2.3.22"
 
 # Collection of sources required to build SDPA-QD
 sources = [
