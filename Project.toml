@@ -3,6 +3,9 @@ uuid = "06148379-1820-477b-a37f-6cf662584f9f"
 authors = ["Eric P. Hanson"]
 version = "0.1.0"
 
+[deps]
+BinaryBuilder = "12aac903-9f7c-5d81-afc2-d9565ea332ae"
+
 [compat]
 julia = "1"
 

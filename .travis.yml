@@ -1,14 +1,39 @@
-# Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os:
   - linux
-  - osx
 julia:
   - 1.0
-  - nightly
-matrix:
-  allow_failures:
-    - julia: nightly
-  fast_finish: true
 notifications:
   email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=true
+sudo: required
+
+# Before anything else, get the latest versions of things
+before_script:
+  - julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/JuliaPackaging/BinaryProvider.jl"))'
+  - julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/JuliaPackaging/BinaryBuilder.jl")); Pkg.build()'
+
+script:
+  - julia build_tarballs.jl
+
+deploy:
+    provider: releases
+    api_key:
+        # Note; this api_key is only valid for ericphanson/QD_Builder; you need
+        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+        secure: "lm8PwgMaLvx5oZjWuMeEOiULtsxeIlTdRLhmHZSaQwoBHdiYe+eGGRdcQFkuRNRO4VRHpdmm8+DNGUEtvwJPI3l2Ux13OFPoWAbHuw550JbapV8yDR5s3KseRDkDMemLw2o+vs/vbNBFxqori9x4/DOJ1kcj1UHHwnCJt68IW6zoMNtQX9XLwtSK5fDdxulQ4YhEjRK2vtkX7zgqbo1GhmpNkGtEwB9ywqefBmrRGBzS/mOFL5eTcrG2jqQHEh9nMTA8IFQQi1wnCuFew8XxBNHc4SlkxxH2e9NXhb1cZqTLKG9p1wEP0Ejm7x9/2xRJ7d+rSl1NgpX4B2aQ4T5oF6RngH+luB5yCSD90wsHhyGqnpbajjtt30PDUkwzXXIBasmikI0S0q9zthh6P5INotjvT63OllWIu2w2qOAGFAbOB/D6QFWtWKec8qe82DM425bPvxCu6wKs24tOwtSSPatte8x6rCAumcqTGlZstmTOQcdcKhgHDsTZwUY6qJxuO+SWK405kSQoInCijd9ljy87EmcB5CgUEl0WG40qpcGUH4B0pc7bk3Zdf5UFlKJ1rqLZEiMVzQtSixMgpJXVP00LYK/1rOn+Ibd1+DLDFa4f63WjqnYdjIfuEQG0W31vzBAa0t8VV52rvnpicOfhTz7ZLayql1zPI+NoBlKdpd4="
+    file_glob: true
+    file: products/*
+    skip_cleanup: true
+    on:
+        repo: ericphanson/QD_Builder
+        tags: true
