@@ -2,7 +2,7 @@
 # `julia build_tarballs.jl --help` to see a usage message.
 using BinaryBuilder
 
-name = "SDPA-QD"
+name = "QD"
 version = v"2.3.22"
 
 # Collection of sources required to build SDPA-QD
